@@ -8,7 +8,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
   useDisclosure,
@@ -58,9 +57,9 @@ export const CustTable = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(event.target.value);
-  };
+  // const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchText(event.target.value);
+  // };
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedFilter(event.target.value as "Existing" | "New");
@@ -92,7 +91,7 @@ export const CustTable = () => {
 
   return (
     <div>
-      <p className="text-3xl font-bold mb-5">All Customers </p>
+      <p className="text-3xl font-bold mb-5">All Customers {successMessage} </p>
       <div>
         <div className="relative flex gap-3 my-7">
           <Menu>
