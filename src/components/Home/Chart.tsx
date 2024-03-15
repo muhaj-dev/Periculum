@@ -22,7 +22,7 @@ const Chart: React.FC = () => {
     <div className="flex py-16 px-10 w-[48%] gap-6 bg-white">
       <PieChart width={300} height={300}>
         <Pie data={data} dataKey="value" outerRadius={150} fill="#8884d8">
-          {data.map((entry, index) => (
+          {data.map((_, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
