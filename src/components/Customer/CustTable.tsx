@@ -8,7 +8,6 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalFooter,
   ModalBody,
   useDisclosure,
   ModalCloseButton,
@@ -66,6 +65,19 @@ export const CustTable = () => {
     setNewCustomerId("");
   };
 
+  const handleSuccess = () => {
+    setSuccessMessage(true);
+  
+    const timeoutId = setTimeout(() => {
+      setSuccessMessage(false);
+      onClose()
+    }, 3000);
+  
+    // Clean up the timeout when the component unmounts
+    return () => clearTimeout(timeoutId);
+  };
+
+
   const handleAddCustomer = () => {
     if (
       !newCustomerId ||
@@ -85,13 +97,13 @@ export const CustTable = () => {
 
     setCustomers([...customers, newCustomer]);
     setNewCustomerId("");
-    setSuccessMessage(true);
     onOpen()
   };
 
+  
   return (
     <div>
-      <p className="text-3xl font-bold mb-5">All Customers {successMessage} </p>
+      <p className="text-3xl font-bold mb-5">All Customers </p>
       <div>
         <div className="relative flex gap-3 my-7">
           <Menu>
@@ -265,29 +277,42 @@ export const CustTable = () => {
 
       <Button onClick={onOpen}>Open Modal</Button>
 
-      <Modal isOpen={isOpen} isCentered onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          <ModalBody textAlign={'center'} m={'10'}>
-            <p className="text-blue-500 text-4xl font-bold">Payment Required</p>
-            <p className=" my-3 text-lg font-semibold">This ID blong to a new customer</p>
-            <p className=" text-lg font-semibold">You are required to pay <span className="text-4xl font-bold">₦350</span> to segment a new user</p>
-          </ModalBody>
-          <div className="w-fit mx-auto space-x-3">
-          <button className="px-10 py-4 text-blue-500 font-semibold border-2"  onClick={onClose}>
-              Cancle
-            </button>
-            <button className="px-10 py-4 text-white bg-blue-500 font-semibold border-2" onClick={(() => {
-              paginate(customers.length -1)
-              onClose()
-            })}>Proceed</button>
-          </div>
+    <Modal isOpen={isOpen} isCentered onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+      {!successMessage ?
+        <ModalBody textAlign={'center'} m={'10'}>
+      
+         <p className="text-blue-500 text-4xl font-bold">Payment Required</p>
+          <p className=" my-3 text-lg font-semibold">This ID blong to a new customer</p>
+          <p className=" text-lg font-semibold">You are required to pay <span className="text-4xl font-bold">₦350</span> to segment a new user</p>
+        <div className="w-fit mx-auto space-x-3">
+        <button className="px-10 py-4 text-blue-500 font-semibold border-2"  onClick={onClose}>
+            Cancle
+          </button>
+          <button className="px-10 py-4 text-white bg-blue-500 font-semibold border-2" onClick={(() => {
+           
+    handleSuccess()
 
-          <ModalFooter>
-            
-          </ModalFooter>
-        </ModalContent>
+          })}>Proceed</button>
+        </div>
+          </ModalBody>
+        : 
+        <ModalBody textAlign={'center'} m={'10'}>
+      
+        <p className="text-blue-500 text-4xl font-bold ">Payment Successful</p>
+       <div className="w-fit mx-auto space-x-3">
+       <button className="px-10 py-4 text-blue-500 font-semibold border-2"  onClick={onClose}>
+           Cancle
+         </button>
+       
+       </div>
+         </ModalBody>
+      }
+
+       
+      </ModalContent>
       </Modal>
     </div>
   );
